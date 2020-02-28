@@ -1,0 +1,17 @@
+[
+    {
+        "id": "0",
+        "ipAddr": "10.0.0.231",
+        "family": "Ipv4",
+        "subnetMask": "255.255.255.0",
+        "router": "10.0.0.1"
+    },
+    {
+        "id": "1",
+        "ipAddr": "fe80::8d7:66bb:6991:33ae",
+        "family": "Ipv6",
+        "subnetMask": "255.255.255.0",
+        "router": "10.0.0.1"
+    }
+]
+ 
