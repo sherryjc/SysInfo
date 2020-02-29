@@ -8,17 +8,19 @@
 
 import Foundation
 
+let strIpv4 = "Ipv4"
+let strIpv6 = "Ipv6"
+let strUnknown = "Unknown"
+
 func getFamilyAsStr(sa_family: UInt8) -> String {
-    var retStr: String
     switch sa_family {
     case UInt8(AF_INET):
-        retStr = "Ipv4"
+        return strIpv4
     case UInt8(AF_INET6):
-        retStr = "Ipv6"
+        return strIpv6
     default:
-        retStr = "Unknown"
+        return "Unknown"
     }
-    return retStr
 }
 
 func getNetworkIFcInfo() -> [NetworkIfcInfo] {
@@ -40,7 +42,7 @@ func getNetworkIFcInfo() -> [NetworkIfcInfo] {
 
         // Check for running IPv4, IPv6 interfaces. Skip the loopback interface.
         if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
-            if addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) {
+            if addr.sa_family == UInt8(AF_INET) /* || addr.sa_family == UInt8(AF_INET6) */ {
 
                 // Convert interface address members to human readable strings:
                 var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))

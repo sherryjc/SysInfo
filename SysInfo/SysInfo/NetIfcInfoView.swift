@@ -22,6 +22,7 @@ struct NetIfcInfoView: View {
             } .padding(.all).background(bg1)
             HStack {
                 Text("IP address:")
+                Text("(\(netIfcInfo.family))")
                 Spacer()
                 Text(netIfcInfo.ipAddr)
             } .padding(.all).background(bg2)

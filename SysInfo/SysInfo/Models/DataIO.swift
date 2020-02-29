@@ -8,12 +8,15 @@
 
 import Foundation
 
+// Always load the JSON file to support previews
 let netIfcTestFileData : [NetworkIfcInfoFile] = load("NetIfcInfo.json")
 
-// Use test data from file: uncomment this line
-let netIfcData = extract(fileData: netIfcTestFileData)
-// Use real data from device: uncomment this line
-// let ...
+// Use test data from the JSON file: uncomment this line
+//let netIfcData = extract(fileData: netIfcTestFileData)
+
+// Use real data from the device: uncomment this line
+let netIfcData = getNetworkIFcInfo();
+
 
 func extract(fileData: [NetworkIfcInfoFile] ) -> [NetworkIfcInfo] {
     var outArray = [NetworkIfcInfo]()
