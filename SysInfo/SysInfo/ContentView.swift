@@ -10,14 +10,20 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let netIfcArrView = NetIfcInfoArrView(netIfcInfoArr: netIfcData)
+    let netIfcArrViewIpv4 = NetIfcInfoArrView(netIfcInfoArr: netIfcDataIpv4)
+    let netIfcArrViewIpv6 = NetIfcInfoArrView(netIfcInfoArr: netIfcDataIpv6)
     let wifiInfoView = WifiInfoView()
+    
     var body: some View {
         VStack {
             NavigationView {
                 List {
-                    NavigationLink(destination: netIfcArrView) {
-                        Text("Network Interface Info")
+                    NavigationLink(destination: netIfcArrViewIpv4) {
+                        Text("IPV4 Network Interfaces")
+                            .foregroundColor(Color.blue)
+                    }
+                    NavigationLink(destination: netIfcArrViewIpv6) {
+                        Text("IPV6 Network Interfaces")
                             .foregroundColor(Color.blue)
                     }
                     NavigationLink(destination: wifiInfoView){

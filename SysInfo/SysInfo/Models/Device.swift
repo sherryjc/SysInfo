@@ -23,7 +23,15 @@ func getFamilyAsStr(sa_family: UInt8) -> String {
     }
 }
 
-func getNetworkIFcInfo() -> [NetworkIfcInfo] {
+func getNetworkIpv4IfcInfo() -> [NetworkIfcInfo] {
+    return getNetworkIfcInfo(family: UInt8(AF_INET))
+}
+
+func getNetworkIpv6IfcInfo() -> [NetworkIfcInfo] {
+    return getNetworkIfcInfo(family: UInt8(AF_INET6))
+}
+
+func getNetworkIfcInfo(family: UInt8) -> [NetworkIfcInfo] {
     var ifcs = [NetworkIfcInfo]()
 
     let unknownAddr = "0.0.0.0"
@@ -42,7 +50,7 @@ func getNetworkIFcInfo() -> [NetworkIfcInfo] {
 
         // Check for running IPv4, IPv6 interfaces. Skip the loopback interface.
         if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
-            if addr.sa_family == UInt8(AF_INET) /* || addr.sa_family == UInt8(AF_INET6) */ {
+            if addr.sa_family == family {
 
                 // Convert interface address members to human readable strings:
                 var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
