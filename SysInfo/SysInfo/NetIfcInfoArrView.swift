@@ -36,6 +36,6 @@ struct NetIfcInfoArrView: View {
 
 struct NetIfcInfoArrView_Previews: PreviewProvider {
     static var previews: some View {
-        NetIfcInfoArrView(netIfcInfoArr: netIfcDataIpv4)
+        NetIfcInfoArrView(netIfcInfoArr: DeviceData.netIfcDataIpv4)
     }
 }

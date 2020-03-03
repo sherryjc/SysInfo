@@ -31,6 +31,6 @@ struct WifiViewEntry: View {
 
 struct WifiViewEntry_Previews: PreviewProvider {
     static var previews: some View {
-        WifiViewEntry(wifiInfo: wifiInfos[0])
+        WifiViewEntry(wifiInfo: DeviceData.wifiInfos[0])
     }
 }

@@ -21,7 +21,7 @@ struct NetworkIfcInfoFile: Hashable, Codable, Identifiable {
 }
 
 struct NetworkIfcInfo: Identifiable {
-    var id: String
+    public var id: String
     var ipAddr: String
     var family: String
     var subnetMask: String
