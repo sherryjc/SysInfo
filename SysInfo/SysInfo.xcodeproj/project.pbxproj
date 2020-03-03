@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E3D0850240ED11700379C0A /* CwlSysctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D084F240ED11700379C0A /* CwlSysctl.swift */; };
 		2E4281C4240DBC19006ECD8D /* WifiInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4281C3240DBC19006ECD8D /* WifiInfo.swift */; };
 		2E4281C6240DC75C006ECD8D /* WifiViewEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */; };
 		D8099D202409D1B00075551B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D1F2409D1B00075551B /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E3D084F240ED11700379C0A /* CwlSysctl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CwlSysctl.swift; sourceTree = "<group>"; };
 		2E4281C3240DBC19006ECD8D /* WifiInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInfo.swift; sourceTree = "<group>"; };
 		2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewEntry.swift; sourceTree = "<group>"; };
 		D8099D1C2409D1B00075551B /* SysInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SysInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +116,7 @@
 				2E4281C3240DBC19006ECD8D /* WifiInfo.swift */,
 				D8099D392409D38F0075551B /* DataIO.swift */,
 				D8099D3B2409D3CB0075551B /* Device.swift */,
+				2E3D084F240ED11700379C0A /* CwlSysctl.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				D8099D422409D4ED0075551B /* NetIfcInfoArrView.swift in Sources */,
 				2E4281C6240DC75C006ECD8D /* WifiViewEntry.swift in Sources */,
 				D8099D3A2409D38F0075551B /* DataIO.swift in Sources */,
+				2E3D0850240ED11700379C0A /* CwlSysctl.swift in Sources */,
 				D8099D402409D4920075551B /* NetIfcInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
