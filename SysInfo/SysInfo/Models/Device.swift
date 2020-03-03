@@ -48,7 +48,7 @@ func getNetworkIfcInfo(family: UInt8) -> [NetworkIfcInfo] {
         let ifcId = ptr.pointee.ifa_name.pointee
         let ifcName = String(ifcId)
 
-        // Check for running IPv4, IPv6 interfaces. Skip the loopback interface.
+        // Check for running interfaces that match the input arg 'family'. Skip the loopback interface.
         if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
             if addr.sa_family == family {
 
@@ -85,6 +85,33 @@ func getNetworkIfcInfo(family: UInt8) -> [NetworkIfcInfo] {
      return ifcs
 }
 
+import SystemConfiguration.CaptiveNetwork
+
+func getWiFiInfos() -> [WifiInfo] {
+    
+    var infos = [WifiInfo]()
+    var ssid: String?
+    var ssidData: String?
+    var dataStr: String = "<empty>"
+    
+    if let interfaces = CNCopySupportedInterfaces() as NSArray? {
+        for interface in interfaces {
+            if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
+                ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
+                if let id = ssid {
+                    ssidData = interfaceInfo[kCNNetworkInfoKeySSIDData as String] as? String
+                    if (ssidData != nil) {
+                        dataStr = ssidData!
+                    }
+                    let info = WifiInfo(id: id, data: dataStr)
+                    infos.append(info)
+                }
+            }
+        }
+    }
+    return infos
+}
+
 // Original
 func getIFAddresses() -> [String] {
     var addresses = [String]()
@@ -117,3 +144,5 @@ func getIFAddresses() -> [String] {
     freeifaddrs(ifaddr)
     return addresses
 }
+
+

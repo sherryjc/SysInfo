@@ -15,9 +15,9 @@ let netIfcTestFileData : [NetworkIfcInfoFile] = load("NetIfcInfo.json")
 //let netIfcData = extract(fileData: netIfcTestFileData)
 
 // Use real data from the device: uncomment this section
-let netIfcDataIpv4 = getNetworkIpv4IfcInfo();
-let netIfcDataIpv6 = getNetworkIpv6IfcInfo();
-
+let netIfcDataIpv4 = getNetworkIpv4IfcInfo()
+let netIfcDataIpv6 = getNetworkIpv6IfcInfo()
+let wifiInfos = getWiFiInfos()
 
 func extract(fileData: [NetworkIfcInfoFile] ) -> [NetworkIfcInfo] {
     var outArray = [NetworkIfcInfo]()

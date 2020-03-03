@@ -12,7 +12,7 @@ struct ContentView: View {
     
     let netIfcArrViewIpv4 = NetIfcInfoArrView(netIfcInfoArr: netIfcDataIpv4)
     let netIfcArrViewIpv6 = NetIfcInfoArrView(netIfcInfoArr: netIfcDataIpv6)
-    let wifiInfoView = WifiInfoView()
+    let wifiInfoView = WifiInfoView(wifiInfos: wifiInfos)
     
     var body: some View {
         VStack {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E4281C4240DBC19006ECD8D /* WifiInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4281C3240DBC19006ECD8D /* WifiInfo.swift */; };
+		2E4281C6240DC75C006ECD8D /* WifiViewEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */; };
 		D8099D202409D1B00075551B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D1F2409D1B00075551B /* AppDelegate.swift */; };
 		D8099D222409D1B00075551B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D212409D1B00075551B /* SceneDelegate.swift */; };
 		D8099D242409D1B00075551B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D232409D1B00075551B /* ContentView.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E4281C3240DBC19006ECD8D /* WifiInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInfo.swift; sourceTree = "<group>"; };
+		2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewEntry.swift; sourceTree = "<group>"; };
 		D8099D1C2409D1B00075551B /* SysInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SysInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8099D1F2409D1B00075551B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8099D212409D1B00075551B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 				D8099D252409D1B20075551B /* Assets.xcassets */,
 				D8099D2A2409D1B20075551B /* LaunchScreen.storyboard */,
 				D8099D3D2409D42D0075551B /* WifiInfoView.swift */,
+				2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */,
 				D8099D3F2409D4920075551B /* NetIfcInfoView.swift */,
 				D8099D412409D4ED0075551B /* NetIfcInfoArrView.swift */,
 				D8099D2D2409D1B20075551B /* Info.plist */,
@@ -106,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				D8099D372409D3250075551B /* NetIfcInfo.swift */,
+				2E4281C3240DBC19006ECD8D /* WifiInfo.swift */,
 				D8099D392409D38F0075551B /* DataIO.swift */,
 				D8099D3B2409D3CB0075551B /* Device.swift */,
 			);
@@ -184,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E4281C4240DBC19006ECD8D /* WifiInfo.swift in Sources */,
 				D8099D382409D3250075551B /* NetIfcInfo.swift in Sources */,
 				D8099D202409D1B00075551B /* AppDelegate.swift in Sources */,
 				D8099D222409D1B00075551B /* SceneDelegate.swift in Sources */,
@@ -191,6 +198,7 @@
 				D8099D3E2409D42D0075551B /* WifiInfoView.swift in Sources */,
 				D8099D242409D1B00075551B /* ContentView.swift in Sources */,
 				D8099D422409D4ED0075551B /* NetIfcInfoArrView.swift in Sources */,
+				2E4281C6240DC75C006ECD8D /* WifiViewEntry.swift in Sources */,
 				D8099D3A2409D38F0075551B /* DataIO.swift in Sources */,
 				D8099D402409D4920075551B /* NetIfcInfoView.swift in Sources */,
 			);
@@ -330,6 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SysInfo/Preview Content\"";
+				DEVELOPMENT_TEAM = K7R773X2T2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SysInfo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -349,6 +358,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SysInfo/Preview Content\"";
+				DEVELOPMENT_TEAM = K7R773X2T2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SysInfo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
