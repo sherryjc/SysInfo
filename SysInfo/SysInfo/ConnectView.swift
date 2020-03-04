@@ -38,23 +38,23 @@ struct ConnectView: View {
                         self.outputText = "Awaiting ping response"
                         self.outputText = Connect.getPingResponse(ipAddr: self.remoteHost)
                     }) {
-                        Text("     Ping      ").font(.subheadline)
+                        Text("     Ping      ").font(.subheadline).bold()
                     }
                     .padding(.all)
-                    .border(Clr.blue1, width: 5)
-                    .background(Clr.green1)
                     .foregroundColor(Clr.white1)
-                    
+                    .background(LinearGradient(gradient: Gradient(colors: [Clr.green1, Clr.blue1]), startPoint: .leading, endPoint: .trailing))
+                    .cornerRadius(40.0)
+
                     Button(action: {
                         self.outputText = "Awaiting URL response"
                     }) {
-                        Text("URL request").font(.subheadline)
+                        Text("URL request").font(.subheadline).bold()
                     }
                     .padding(.all)
-                    .border(Clr.blue1, width: 5)
-                    .background(Clr.green1)
                     .foregroundColor(Clr.white1)
-                    
+                    .background(LinearGradient(gradient: Gradient(colors: [Clr.blue1, Clr.green1]), startPoint: .leading, endPoint: .trailing))
+                    .cornerRadius(40.0)
+
                 }.padding(.all)
             
                 HStack {
