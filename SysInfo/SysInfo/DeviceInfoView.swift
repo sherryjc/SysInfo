@@ -19,32 +19,32 @@ struct DeviceInfoView: View {
                     Text("This Device")
                     Spacer()
                 }
-                .padding(.all).background(Clr.bg_blue1).foregroundColor(Clr.fg_white1)
+                .padding(.all).background(Clr.blue1).foregroundColor(Clr.white1)
                 HStack {
                     Text("Host Name:")
                     Spacer()
                     Text(deviceInfo.hostName)
-                } .padding(.all).background(Clr.bg_gray1)
+                } .padding(.all).background(Clr.gray1)
                 HStack {
                     Text("Version:")
                     Spacer()
                     Text(deviceInfo.version)
-                } .padding(.all).background(Clr.bg_gray2)
+                } .padding(.all).background(Clr.gray2)
                 HStack {
                     Text("OS Type:")
                     Spacer()
                     Text(deviceInfo.osType)
-                } .padding(.all).background(Clr.bg_gray1)
+                } .padding(.all).background(Clr.gray1)
                 HStack {
                     Text("OS Version:")
                     Spacer()
                     Text(deviceInfo.osVersion)
-                } .padding(.all).background(Clr.bg_gray2)
+                } .padding(.all).background(Clr.gray2)
                 HStack {
                     Text("Active CPUs:")
                     Spacer()
                     Text("\(deviceInfo.activeCPUs)")
-                } .padding(.all).background(Clr.bg_gray1)
+                } .padding(.all).background(Clr.gray1)
             }
         }
     }

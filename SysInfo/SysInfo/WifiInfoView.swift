@@ -20,7 +20,7 @@ struct WifiInfoView: View {
                     Spacer()
                     Text("\(wifiInfos.count)")
                 }
-                .padding(.all).background(Clr.bg_blue1).foregroundColor(Clr.fg_white1)
+                .padding(.all).background(Clr.blue1).foregroundColor(Clr.white1)
                 ForEach(wifiInfos, id: \.id) { info in
                     WifiViewEntry(wifiInfo: info)
                 }

@@ -17,12 +17,12 @@ struct WifiViewEntry: View {
                 Text("ID:")
                 Spacer()
                 Text(wifiInfo.id)
-            } .padding(.all).background(Clr.bg_gray1)
+            } .padding(.all).background(Clr.gray1)
             HStack {
                 Text("Data:")
                 Spacer()
                 Text(wifiInfo.data)
-            } .padding(.all).background(Clr.bg_gray2)
+            } .padding(.all).background(Clr.gray2)
         }
     }
 }

@@ -18,23 +18,23 @@ struct NetIfcInfoView: View {
                 Text("ID:")
                 Spacer()
                 Text(netIfcInfo.id)
-            } .padding(.all).background(Clr.bg_gray1)
+            } .padding(.all).background(Clr.gray1)
             HStack {
                 Text("IP address:")
                 Text("(\(netIfcInfo.family))")
                 Spacer()
                 Text(netIfcInfo.ipAddr)
-            } .padding(.all).background(Clr.bg_gray2)
+            } .padding(.all).background(Clr.gray2)
             HStack {
                 Text("Subnet mask:")
                 Spacer()
                 Text(netIfcInfo.subnetMask)
-            } .padding(.all).background(Clr.bg_gray1)
+            } .padding(.all).background(Clr.gray1)
             HStack {
                 Text("Router:")
                 Spacer()
                 Text(netIfcInfo.router)
-            } .padding(.all).background(Clr.bg_gray2)
+            } .padding(.all).background(Clr.gray2)
         }
     }
 }
