@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct NetIfcInfoView: View {
+
     var netIfcInfo: NetworkIfcInfo
-    let bg1 = Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0)
-    let bg2 = Color(red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0)
     
     var body: some View {
         VStack(alignment: .center, spacing: 0.0) {
@@ -19,23 +18,23 @@ struct NetIfcInfoView: View {
                 Text("ID:")
                 Spacer()
                 Text(netIfcInfo.id)
-            } .padding(.all).background(bg1)
+            } .padding(.all).background(Clr.bg_gray1)
             HStack {
                 Text("IP address:")
                 Text("(\(netIfcInfo.family))")
                 Spacer()
                 Text(netIfcInfo.ipAddr)
-            } .padding(.all).background(bg2)
+            } .padding(.all).background(Clr.bg_gray2)
             HStack {
                 Text("Subnet mask:")
                 Spacer()
                 Text(netIfcInfo.subnetMask)
-            } .padding(.all).background(bg1)
+            } .padding(.all).background(Clr.bg_gray1)
             HStack {
                 Text("Router:")
                 Spacer()
                 Text(netIfcInfo.router)
-            } .padding(.all).background(bg2)
+            } .padding(.all).background(Clr.bg_gray2)
         }
     }
 }

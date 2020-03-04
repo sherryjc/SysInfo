@@ -17,6 +17,9 @@
 //  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 //  IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 //
+//
+//  Modified version by Joe Sherry on 3/3/20.
+//  Copyright © 2020 JMacDev. All rights reserved.
 
 import Foundation
 

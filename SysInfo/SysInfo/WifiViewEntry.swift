@@ -10,8 +10,6 @@ import SwiftUI
 
 struct WifiViewEntry: View {
     var wifiInfo: WifiInfo
-    let bg1 = Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0)
-    let bg2 = Color(red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0)
 
     var body: some View {
         VStack(alignment: .center) {
@@ -19,12 +17,12 @@ struct WifiViewEntry: View {
                 Text("ID:")
                 Spacer()
                 Text(wifiInfo.id)
-            } .padding(.all).background(bg1)
+            } .padding(.all).background(Clr.bg_gray1)
             HStack {
                 Text("Data:")
                 Spacer()
                 Text(wifiInfo.data)
-            } .padding(.all).background(bg2)
+            } .padding(.all).background(Clr.bg_gray2)
         }
     }
 }

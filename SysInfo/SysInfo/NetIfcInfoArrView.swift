@@ -11,11 +11,7 @@ import SwiftUI
 struct NetIfcInfoArrView: View {
     
     var netIfcInfoArr: [NetworkIfcInfo]
-    let bg1 = Color(red: 0.0, green: 0.0, blue: 0.9, opacity: 0.7)
-    let fg1 = Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 1.0)
-    let fg2 = Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 1.0)
-    
-
+   
     var body: some View {
         VStack(alignment: .center, spacing: 0.0) {
             List {
@@ -24,7 +20,7 @@ struct NetIfcInfoArrView: View {
                     Spacer()
                     Text("\(netIfcInfoArr.count)")
                 }
-                .padding(.all).background(bg1).foregroundColor(fg1)
+                .padding(.all).background(Clr.bg_blue1).foregroundColor(Clr.fg_white1)
                 
                 ForEach(netIfcInfoArr, id: \.id) {info in
                         NetIfcInfoView(netIfcInfo: info)

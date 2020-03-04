@@ -10,6 +10,10 @@
 		2E3D0850240ED11700379C0A /* CwlSysctl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D084F240ED11700379C0A /* CwlSysctl.swift */; };
 		2E3D0852240ED5A700379C0A /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D0851240ED5A700379C0A /* DeviceInfo.swift */; };
 		2E3D0854240EDF7300379C0A /* DeviceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D0853240EDF7300379C0A /* DeviceInfoView.swift */; };
+		2E3D0856240F101300379C0A /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D0855240F101300379C0A /* ConnectView.swift */; };
+		2E3D0858240F10DF00379C0A /* CommonDefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D0857240F10DF00379C0A /* CommonDefs.swift */; };
+		2E3D085A240F120300379C0A /* CommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D0859240F120300379C0A /* CommonView.swift */; };
+		2E3D085C240F1E3100379C0A /* Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D085B240F1E3100379C0A /* Connect.swift */; };
 		2E4281C4240DBC19006ECD8D /* WifiInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4281C3240DBC19006ECD8D /* WifiInfo.swift */; };
 		2E4281C6240DC75C006ECD8D /* WifiViewEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */; };
 		D8099D202409D1B00075551B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D1F2409D1B00075551B /* AppDelegate.swift */; };
@@ -31,6 +35,10 @@
 		2E3D084F240ED11700379C0A /* CwlSysctl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CwlSysctl.swift; sourceTree = "<group>"; };
 		2E3D0851240ED5A700379C0A /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2E3D0853240EDF7300379C0A /* DeviceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoView.swift; sourceTree = "<group>"; };
+		2E3D0855240F101300379C0A /* ConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectView.swift; sourceTree = "<group>"; };
+		2E3D0857240F10DF00379C0A /* CommonDefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefs.swift; sourceTree = "<group>"; };
+		2E3D0859240F120300379C0A /* CommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonView.swift; sourceTree = "<group>"; };
+		2E3D085B240F1E3100379C0A /* Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect.swift; sourceTree = "<group>"; };
 		2E4281C3240DBC19006ECD8D /* WifiInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInfo.swift; sourceTree = "<group>"; };
 		2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewEntry.swift; sourceTree = "<group>"; };
 		D8099D1C2409D1B00075551B /* SysInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SysInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,9 +93,11 @@
 				D8099D1F2409D1B00075551B /* AppDelegate.swift */,
 				D8099D212409D1B00075551B /* SceneDelegate.swift */,
 				D8099D232409D1B00075551B /* ContentView.swift */,
+				2E3D0855240F101300379C0A /* ConnectView.swift */,
 				D8099D252409D1B20075551B /* Assets.xcassets */,
 				D8099D2A2409D1B20075551B /* LaunchScreen.storyboard */,
 				D8099D3D2409D42D0075551B /* WifiInfoView.swift */,
+				2E3D0859240F120300379C0A /* CommonView.swift */,
 				2E4281C5240DC75C006ECD8D /* WifiViewEntry.swift */,
 				2E3D0853240EDF7300379C0A /* DeviceInfoView.swift */,
 				D8099D3F2409D4920075551B /* NetIfcInfoView.swift */,
@@ -117,10 +127,12 @@
 		D8099D342409D1E70075551B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2E3D0857240F10DF00379C0A /* CommonDefs.swift */,
 				D8099D372409D3250075551B /* NetIfcInfo.swift */,
 				2E4281C3240DBC19006ECD8D /* WifiInfo.swift */,
 				D8099D392409D38F0075551B /* DataIO.swift */,
 				D8099D3B2409D3CB0075551B /* Device.swift */,
+				2E3D085B240F1E3100379C0A /* Connect.swift */,
 				2E3D0851240ED5A700379C0A /* DeviceInfo.swift */,
 				2E3D084F240ED11700379C0A /* CwlSysctl.swift */,
 			);
@@ -202,13 +214,17 @@
 				2E4281C4240DBC19006ECD8D /* WifiInfo.swift in Sources */,
 				D8099D382409D3250075551B /* NetIfcInfo.swift in Sources */,
 				2E3D0852240ED5A700379C0A /* DeviceInfo.swift in Sources */,
+				2E3D0856240F101300379C0A /* ConnectView.swift in Sources */,
 				D8099D202409D1B00075551B /* AppDelegate.swift in Sources */,
 				D8099D222409D1B00075551B /* SceneDelegate.swift in Sources */,
+				2E3D0858240F10DF00379C0A /* CommonDefs.swift in Sources */,
 				D8099D3C2409D3CB0075551B /* Device.swift in Sources */,
+				2E3D085C240F1E3100379C0A /* Connect.swift in Sources */,
 				D8099D3E2409D42D0075551B /* WifiInfoView.swift in Sources */,
 				D8099D242409D1B00075551B /* ContentView.swift in Sources */,
 				D8099D422409D4ED0075551B /* NetIfcInfoArrView.swift in Sources */,
 				2E4281C6240DC75C006ECD8D /* WifiViewEntry.swift in Sources */,
+				2E3D085A240F120300379C0A /* CommonView.swift in Sources */,
 				2E3D0854240EDF7300379C0A /* DeviceInfoView.swift in Sources */,
 				D8099D3A2409D38F0075551B /* DataIO.swift in Sources */,
 				2E3D0850240ED11700379C0A /* CwlSysctl.swift in Sources */,

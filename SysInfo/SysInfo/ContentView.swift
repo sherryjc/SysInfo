@@ -14,6 +14,7 @@ struct ContentView: View {
     let netIfcArrViewIpv4 = NetIfcInfoArrView(netIfcInfoArr: DeviceData.netIfcDataIpv4)
     let netIfcArrViewIpv6 = NetIfcInfoArrView(netIfcInfoArr: DeviceData.netIfcDataIpv6)
     let wifiInfoView = WifiInfoView(wifiInfos: DeviceData.wifiInfos)
+    let connectView = ConnectView()
     
     var body: some View {
         VStack {
@@ -35,7 +36,11 @@ struct ContentView: View {
                         Text("Wifi Info")
                             .foregroundColor(Color.blue)
                     }
-                    }.navigationBarTitle("System Info")
+                    NavigationLink(destination: connectView){
+                        Text("Test Connections")
+                            .foregroundColor(Color.blue)
+                    }
+                }.navigationBarTitle("System Info")
             }
         }
     }
