@@ -8,6 +8,26 @@
 
 import Foundation
 
+struct Connect {
+    static func getPingResponse(ipAddr: String) -> String {
+        let retStr: String = """
+        PING 10.0.0.1 (10.0.0.1): 56 data bytes
+        64 bytes from 10.0.0.1: icmp_seq=0 ttl=64 time=4.364 ms
+        64 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=5.130 ms
+        64 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=4.921 ms
+        64 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=4.347 ms
+        64 bytes from 10.0.0.1: icmp_seq=4 ttl=64 time=4.349 ms
+        64 bytes from 10.0.0.1: icmp_seq=5 ttl=64 time=3.887 ms
+        64 bytes from 10.0.0.1: icmp_seq=6 ttl=64 time=4.936 ms
+        64 bytes from 10.0.0.1: icmp_seq=7 ttl=64 time=4.847 ms
+        64 bytes from 10.0.0.1: icmp_seq=8 ttl=64 time=4.268 ms
+        64 bytes from 10.0.0.1: icmp_seq=9 ttl=64 time=4.437 ms
+        64 bytes from 10.0.0.1: icmp_seq=10 ttl=64 time=4.067 ms
+
+        """
+        return retStr
+    }
+}
 /*
 var canStartPinging = false
 The code that calls the ping:
