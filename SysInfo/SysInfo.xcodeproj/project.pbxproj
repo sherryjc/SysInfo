@@ -29,6 +29,7 @@
 		D8099D3E2409D42D0075551B /* WifiInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D3D2409D42D0075551B /* WifiInfoView.swift */; };
 		D8099D402409D4920075551B /* NetIfcInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D3F2409D4920075551B /* NetIfcInfoView.swift */; };
 		D8099D422409D4ED0075551B /* NetIfcInfoArrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D412409D4ED0075551B /* NetIfcInfoArrView.swift */; };
+		D8D3B77E24107F6C0041C894 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D3B77D24107F6C0041C894 /* SimplePing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,9 @@
 		D8099D3D2409D42D0075551B /* WifiInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInfoView.swift; sourceTree = "<group>"; };
 		D8099D3F2409D4920075551B /* NetIfcInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetIfcInfoView.swift; sourceTree = "<group>"; };
 		D8099D412409D4ED0075551B /* NetIfcInfoArrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetIfcInfoArrView.swift; sourceTree = "<group>"; };
+		D8D3B77C24107EE80041C894 /* SimplePing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		D8D3B77D24107F6C0041C894 /* SimplePing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		D8D3B77F241081EC0041C894 /* SysInfo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SysInfo-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,7 @@
 		D8099D1E2409D1B00075551B /* SysInfo */ = {
 			isa = PBXGroup;
 			children = (
+				D8D3B77B24107B5D0041C894 /* ObjC */,
 				D8099D342409D1E70075551B /* Models */,
 				D8099D332409D1CF0075551B /* Resources */,
 				D8099D1F2409D1B00075551B /* AppDelegate.swift */,
@@ -139,6 +144,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		D8D3B77B24107B5D0041C894 /* ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				D8D3B77F241081EC0041C894 /* SysInfo-Bridging-Header.h */,
+				D8D3B77C24107EE80041C894 /* SimplePing.h */,
+				D8D3B77D24107F6C0041C894 /* SimplePing.m */,
+			);
+			path = ObjC;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -171,6 +186,7 @@
 				TargetAttributes = {
 					D8099D1B2409D1B00075551B = {
 						CreatedOnToolsVersion = 11.3.1;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -216,6 +232,7 @@
 				2E3D0852240ED5A700379C0A /* DeviceInfo.swift in Sources */,
 				2E3D0856240F101300379C0A /* ConnectView.swift in Sources */,
 				D8099D202409D1B00075551B /* AppDelegate.swift in Sources */,
+				D8D3B77E24107F6C0041C894 /* SimplePing.m in Sources */,
 				D8099D222409D1B00075551B /* SceneDelegate.swift in Sources */,
 				2E3D0858240F10DF00379C0A /* CommonDefs.swift in Sources */,
 				D8099D3C2409D3CB0075551B /* Device.swift in Sources */,
@@ -364,6 +381,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SysInfo/Preview Content\"";
 				DEVELOPMENT_TEAM = K7R773X2T2;
@@ -375,6 +393,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = JMacDev.SysInfo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "ObjC/SysInfo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -384,6 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SysInfo/Preview Content\"";
 				DEVELOPMENT_TEAM = K7R773X2T2;
@@ -395,6 +416,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = JMacDev.SysInfo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "ObjC/SysInfo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

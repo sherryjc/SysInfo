@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import SystemConfiguration.CaptiveNetwork
+// See note below - need Wifi entitlement to import the following:
+//import SystemConfiguration.CaptiveNetwork
 
 let strIpv4 = "Ipv4"
 let strIpv6 = "Ipv6"
@@ -89,11 +90,15 @@ struct Device {
 
     static func getWiFiInfos() -> [WifiInfo] {
         
+        // Need a Wifi entitlement to access the CN* APIs. Not sure if I can get one of those without a developer account.
+        // For now, stubbing this out.
+        let infos = [WifiInfo]()
+        /*
         var infos = [WifiInfo]()
         var ssid: String?
         var ssidData: String?
         var dataStr: String = "<empty>"
-        
+
         if let interfaces = CNCopySupportedInterfaces() as NSArray? {
             for interface in interfaces {
                 if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
@@ -109,6 +114,7 @@ struct Device {
                 }
             }
         }
+        */
         return infos
     }
 
