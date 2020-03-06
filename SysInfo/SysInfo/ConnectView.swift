@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-struct ConnectViewRow: View, Identifiable {
-    var id = UUID()
+struct ConnectViewRow: View  {
+
     var status: ConnectStatus
     var rowText: String
     
@@ -29,18 +29,32 @@ struct ConnectViewRow: View, Identifiable {
     }
 }
 
+struct RowItem: Identifiable {
+    var id : Int
+    var status: ConnectStatus
+    var resp: String
+}
+
 struct ConnectView: View {
     
     @State private var remoteHost: String = ""
-    @State static private var output: [ConnectViewRow] = [ConnectViewRow]()
+    @State private var outputRows: [RowItem] = [RowItem]()
     
-    static func updateOutput(_ status: ConnectStatus, _ line: String) -> Void {
-        let row = ConnectViewRow(status: status, rowText: line)
-        output.append(row)
+    init() {
+        Connect.registerView(self)
     }
-    
-    static func clearOutput() -> Void {
-        output = [ConnectViewRow]()
+
+    func updateOutput(_ status: ConnectStatus, _ line: String) -> Void {
+        let currRowCount = self.outputRows.count
+        let row = RowItem(id: currRowCount, status: status, resp: line)
+        self.outputRows.append(row)
+        print(self.$outputRows)
+        print("Appended row [\(row)], count=\(self.outputRows.count)")
+    }
+        
+    func clearOutput() -> Void {
+        print("Clearing output")
+        outputRows = [RowItem]()
     }
 
     var body: some View {
@@ -65,7 +79,10 @@ struct ConnectView: View {
         
                 HStack {
                     Button(action: {
-                        Connect.ping(self.remoteHost, 4)
+                        if (!self.remoteHost.isEmpty) {
+                            self.clearOutput()
+                            Connect.ping(self.remoteHost, 4)
+                        }
                     }) {
                         Text("     Ping      ").font(.subheadline).bold()
                     }
@@ -93,9 +110,12 @@ struct ConnectView: View {
                     Text("\(remoteHost)").foregroundColor(Clr.red1)
                 }
                 .padding(.all)
-
-                List(ConnectView.output) { row in
-                    row
+                VStack {
+                    //List(self.outputRows) { rowItem in
+                     //   ConnectViewRow(status: rowItem.status, rowText: rowItem.resp)
+                    //}
+                    Text("Row count: \(outputRows.count)")
+                    ConnectViewRow(status: ConnectStatus.success, rowText: "Message row \(outputRows.count)")
                 }
             }
             Spacer()

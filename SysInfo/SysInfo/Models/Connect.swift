@@ -8,38 +8,23 @@
 
 import Foundation
 
+
 struct Connect {
     
-    static func getTestPingResponse(ipAddr: String) -> String {
-        let retStr: String = """
-        PING 10.0.0.1 (10.0.0.1): 56 data bytes
-        64 bytes from 10.0.0.1: icmp_seq=0 ttl=64 time=4.364 ms
-        64 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=5.130 ms
-        64 bytes from 10.0.0.1: icmp_seq=2 ttl=64 time=4.921 ms
-        64 bytes from 10.0.0.1: icmp_seq=3 ttl=64 time=4.347 ms
-        64 bytes from 10.0.0.1: icmp_seq=4 ttl=64 time=4.349 ms
-        64 bytes from 10.0.0.1: icmp_seq=5 ttl=64 time=3.887 ms
-        64 bytes from 10.0.0.1: icmp_seq=6 ttl=64 time=4.936 ms
-        64 bytes from 10.0.0.1: icmp_seq=7 ttl=64 time=4.847 ms
-        64 bytes from 10.0.0.1: icmp_seq=8 ttl=64 time=4.268 ms
-        64 bytes from 10.0.0.1: icmp_seq=9 ttl=64 time=4.437 ms
-        64 bytes from 10.0.0.1: icmp_seq=10 ttl=64 time=4.067 ms
-
-        """
-        return retStr
+    static var cnView : ConnectView?
+    static func registerView(_ cv: ConnectView) {
+        cnView = cv
     }
-    
     static func cb(_ status: ConnectStatus, _ response: String) -> Void {
-        ConnectView.updateOutput(status, response)
+        cnView?.updateOutput(status, response)
     }
     
     static func ping(_ hostName: String, _ numPings: UInt8) {
-        var pm = PingMgr(hostName: hostName,
-                         numToSend: numPings,
-                         callback: Connect.cb)
-        pm.start(forceIPv4: true, forceIPv6: false)
+        let pm = PingMgrTest()
+        pm.ping(hostName, numPings, Connect.cb)
     }
 }
+
 /*
 var canStartPinging = false
 The code that calls the ping:
@@ -128,12 +113,14 @@ enum ConnectStatus {
     case more
 }
 
+/*
 class PingMgr: NSObject, SimplePingDelegate {
  
     // Inputs
     var hostName: String = ""
     var numToSend: UInt8 = 0
-    var callback: (_ status: ConnectStatus, _ response: String) -> Void = {_,_ in }
+    typealias cbFunc = (ConnectStatus, String) -> Void
+    var callback: cbFunc = {_,_ in }
     
     // System objects providing services
     var pinger: SimplePing?
@@ -144,6 +131,14 @@ class PingMgr: NSObject, SimplePingDelegate {
     var numRecv: UInt8 = 0
     // Maps: seqNum -> Time sent
     var sentTimes = [UInt16 : TimeInterval]()
+    
+    func ping(_ host: String, _ num: UInt8, _ cb: @escaping cbFunc) {
+        self.hostName = host
+        self.numToSend = num
+        self.callback = cb
+        
+        self.start(forceIPv4: true, forceIPv6: false)
+    }
 
     func start(forceIPv4: Bool, forceIPv6: Bool) {
         
@@ -314,6 +309,116 @@ class PingMgr: NSObject, SimplePingDelegate {
             return result
         }
         return error.localizedDescription
+    }
+    
+}
+*/
+
+class PingMgrTest {
+ 
+    // Inputs
+    var hostName: String = ""
+    var numToSend: UInt8 = 0
+    typealias cbFunc = (ConnectStatus, String) -> Void
+    var callback: cbFunc?
+    
+    // This PingMgr's bookkeeping
+    var numSent: UInt8 = 0
+    var numRecv: UInt8 = 0
+    // Maps: seqNum -> Time sent
+    var sentTimes = [UInt16 : TimeInterval]()
+    
+    func ping(_ host: String, _ num: UInt8, _ cb: @escaping cbFunc) {
+        self.hostName = host
+        self.numToSend = num
+        self.callback = cb
+        
+        self.start(forceIPv4: true, forceIPv6: false)
+    }
+
+    func start(forceIPv4: Bool, forceIPv6: Bool) {
+        
+        self.pingerWillStart()
+        
+        self.simulate("192.168.0.1")
+
+        self.stop()
+        
+    }
+    
+    func simulate(_ ipAddr: String) {
+        self.gotDidStartWithAddress(ipAddr)
+        self.gotDidSendPacket(0)
+        self.gotDidReceiveResponsePacket(0)
+        self.gotDidSendPacket(1)
+        self.gotDidReceiveResponsePacket(1)
+        self.gotDidSendPacket(2)
+        self.gotDidReceiveResponsePacket(2)
+        self.gotDidSendPacket(3)
+        self.gotDidReceiveResponsePacket(3)
+
+    }
+    
+    func stop() {
+        self.pingerDidStop()
+    }
+    
+    func clear() {
+        self.numSent = 0
+        self.numRecv = 0
+        self.sentTimes = [UInt16 : TimeInterval]()
+    }
+    
+    func pingerWillStart() {
+        self.clear()
+    }
+    
+    func pingerDidStop() {
+        self.clear()
+    }
+
+    // simulated pinger delegate callbacks
+    func gotDidStartWithAddress(_ ipAddr: String) {
+        let resp = "Pinging host \(ipAddr)"
+        self.callback?(ConnectStatus.more, resp)
+    }
+    
+    func gotDidFailWithError(_ errMsg: String) {
+        self.callback?(ConnectStatus.fail, errMsg)
+    }
+    
+    func gotDidSendPacket(_ sequenceNumber: UInt16) {
+        let resp = "sent seq=\(sequenceNumber)"
+        self.sentTimes[sequenceNumber] = Date().timeIntervalSince1970
+        self.callback?(ConnectStatus.more, resp)
+        self.numSent += 1
+    }
+    
+    func gotDidFailToSendPacket(_ sequenceNumber: UInt16, _ errMsg: String) {
+        let resp = "send failed for seq=\(sequenceNumber) \(errMsg)"
+        self.callback?(ConnectStatus.fail, resp)
+    }
+    
+    func gotDidReceiveResponsePacket(_ sequenceNumber: UInt16) {
+        //et ms = Int(((Date().timeIntervalSince1970 - (sentTimes[sequenceNumber] ?? 0.0)).truncatingRemainder(dividingBy: 1)) * 1000)
+        let ms = 4.1234
+        let resp = "received seq=\(sequenceNumber), sz=64 time=\(ms) ms"
+        numRecv += 1
+        if (numRecv >= numToSend) {
+            self.callback?(ConnectStatus.success, resp)
+        } else {
+            self.callback?(ConnectStatus.more, resp)
+        }
+    }
+
+    func gotDidReceiveUnexpectedPacket() {
+        let resp = "received unexpected packet seq=??? sz=64"
+        self.callback?(ConnectStatus.more, resp)
+    }
+    
+    func simplePing(_ pinger: SimplePing, didReceiveUnexpectedPacket packet: Data) {
+        let resp = "received unexpected packet seq=??? sz=64"
+        self.callback?(ConnectStatus.more, resp)
     }
     
 }
