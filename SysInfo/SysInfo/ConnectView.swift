@@ -8,11 +8,41 @@
 
 import SwiftUI
 
+struct ConnectViewRow: View, Identifiable {
+    var id = UUID()
+    var status: ConnectStatus
+    var rowText: String
+    
+    var body: some View {
+        
+        if status == ConnectStatus.fail {
+            return HStack {
+                Text("[FAIL] ").foregroundColor(Clr.red1)
+                Text(rowText)
+            }
+        } else {
+            return HStack {
+                Text("[OK] ").foregroundColor(Clr.green1)
+                Text(rowText)
+            }
+        }
+    }
+}
+
 struct ConnectView: View {
     
     @State private var remoteHost: String = ""
-    @State private var outputText: String = ""
+    @State static private var output: [ConnectViewRow] = [ConnectViewRow]()
     
+    static func updateOutput(_ status: ConnectStatus, _ line: String) -> Void {
+        let row = ConnectViewRow(status: status, rowText: line)
+        output.append(row)
+    }
+    
+    static func clearOutput() -> Void {
+        output = [ConnectViewRow]()
+    }
+
     var body: some View {
 
         ZStack {
@@ -35,8 +65,7 @@ struct ConnectView: View {
         
                 HStack {
                     Button(action: {
-                        self.outputText = "Awaiting ping response"
-                        self.outputText = Connect.getPingResponse(ipAddr: self.remoteHost)
+                        Connect.ping(self.remoteHost, 4)
                     }) {
                         Text("     Ping      ").font(.subheadline).bold()
                     }
@@ -46,7 +75,7 @@ struct ConnectView: View {
                     .cornerRadius(40.0)
 
                     Button(action: {
-                        self.outputText = "Awaiting URL response"
+                        //self.outputText = "Awaiting URL response"
                     }) {
                         Text("URL request").font(.subheadline).bold()
                     }
@@ -65,13 +94,9 @@ struct ConnectView: View {
                 }
                 .padding(.all)
 
-            
-                HStack {
-                    Text(outputText)
-                        .padding(.horizontal)
-                    
-                }.frame(minWidth: 200, idealWidth: 400.0, minHeight: 400, idealHeight: 500.0)
-            
+                List(ConnectView.output) { row in
+                    row
+                }
             }
             Spacer()
         }
