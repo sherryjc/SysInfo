@@ -25,6 +25,13 @@ struct Connect {
     }
 }
 
+enum ConnectStatus {
+    case success
+    case fail
+    case more
+}
+
+
 /*
 var canStartPinging = false
 The code that calls the ping:
@@ -107,11 +114,7 @@ func myFunction() {
     A view controller for testing SimplePing on iOS.
  */
 
-enum ConnectStatus {
-    case success
-    case fail
-    case more
-}
+
 
 /*
 class PingMgr: NSObject, SimplePingDelegate {

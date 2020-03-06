@@ -10,12 +10,13 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject private var userData : UserData
+
     let deviceInfoView = DeviceInfoView(deviceInfo: DeviceData.deviceInfo)
     let netIfcArrViewIpv4 = NetIfcInfoArrView(netIfcInfoArr: DeviceData.netIfcDataIpv4)
     let netIfcArrViewIpv6 = NetIfcInfoArrView(netIfcInfoArr: DeviceData.netIfcDataIpv6)
     let wifiInfoView = WifiInfoView(wifiInfos: DeviceData.wifiInfos)
-    let connectView = ConnectView()
-    
+
     var body: some View {
         VStack {
             NavigationView {
@@ -36,7 +37,7 @@ struct ContentView: View {
                         Text("Wifi Info")
                             .foregroundColor(Color.blue)
                     }
-                    NavigationLink(destination: connectView){
+                    NavigationLink(destination: ConnectView().environmentObject(self.userData)){
                         Text("Test Connections")
                             .foregroundColor(Color.blue)
                     }

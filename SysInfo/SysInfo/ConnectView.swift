@@ -6,6 +6,7 @@
 //  Copyright © 2020 JMacDev. All rights reserved.
 //
 
+
 import SwiftUI
 
 struct ConnectViewRow: View  {
@@ -35,26 +36,38 @@ struct RowItem: Identifiable {
     var resp: String
 }
 
+
 struct ConnectView: View {
     
-    @State private var remoteHost: String = ""
-    @State private var outputRows: [RowItem] = [RowItem]()
+    @EnvironmentObject private var userData : UserData
     
     init() {
         Connect.registerView(self)
     }
-
-    func updateOutput(_ status: ConnectStatus, _ line: String) -> Void {
-        let currRowCount = self.outputRows.count
-        let row = RowItem(id: currRowCount, status: status, resp: line)
-        self.outputRows.append(row)
-        print(self.$outputRows)
-        print("Appended row [\(row)], count=\(self.outputRows.count)")
+    
+    func updateIpAddr(_ ipAddr: String) -> Void {
+        userData.remoteIpAddr = ipAddr
     }
-        
+    
+    func updateOutput(_ status: ConnectStatus, _ line: String) -> Void {
+        var rows = userData.outputRows
+        let currRows = rows.count
+        let row = RowItem(id: currRows, status: status, resp: line)
+        rows.append(row)
+        print(rows.count)
+        print("Appended row [\(row)], count=\(userData.outputRows.count)")
+    }
+    
+    func hack() {
+        // Add test rows
+        self.updateIpAddr("192.168.0.1")
+        // self.updateOutput(ConnectStatus.more, "Here is another line of text")
+    }
+    
     func clearOutput() -> Void {
         print("Clearing output")
-        outputRows = [RowItem]()
+        userData.outputRows = [RowItem]()
+        print("Cleared output")
     }
 
     var body: some View {
@@ -74,14 +87,15 @@ struct ConnectView: View {
                 VStack {
                     Text("Contact remote host")
                         .font(.subheadline).italic().foregroundColor(Clr.blue1).padding(.top)
-                    TextField("Enter URL or IP address", text: $remoteHost).padding(.all).border(Color.blue, width: 1.0).background(Clr.blue1).textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Enter URL or IP address", text: $userData.remoteHost).padding(.all).border(Color.blue, width: 1.0).background(Clr.blue1).textFieldStyle(RoundedBorderTextFieldStyle())
                 }
         
                 HStack {
                     Button(action: {
-                        if (!self.remoteHost.isEmpty) {
+                        if (!self.userData.remoteHost.isEmpty) {
                             self.clearOutput()
-                            Connect.ping(self.remoteHost, 4)
+                            self.hack()
+                            //Connect.ping(self.userData.remoteHost, 4)
                         }
                     }) {
                         Text("     Ping      ").font(.subheadline).bold()
@@ -107,15 +121,15 @@ struct ConnectView: View {
                     Text("Contacting host:")
                         .padding(.horizontal)
                     Spacer()
-                    Text("\(remoteHost)").foregroundColor(Clr.red1)
+                    Text("\(userData.remoteHost)").foregroundColor(Clr.red1)
                 }
                 .padding(.all)
                 VStack {
-                    //List(self.outputRows) { rowItem in
-                     //   ConnectViewRow(status: rowItem.status, rowText: rowItem.resp)
-                    //}
-                    Text("Row count: \(outputRows.count)")
-                    ConnectViewRow(status: ConnectStatus.success, rowText: "Message row \(outputRows.count)")
+                    Text("Row count: \(userData.outputRows.count)")
+                    Text("Resolved IP Addr: \(userData.remoteIpAddr)")
+                    List(userData.outputRows) { rowItem in
+                        ConnectViewRow(status: rowItem.status, rowText: rowItem.resp)
+                    }
                 }
             }
             Spacer()

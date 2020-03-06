@@ -29,6 +29,7 @@
 		D8099D3E2409D42D0075551B /* WifiInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D3D2409D42D0075551B /* WifiInfoView.swift */; };
 		D8099D402409D4920075551B /* NetIfcInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D3F2409D4920075551B /* NetIfcInfoView.swift */; };
 		D8099D422409D4ED0075551B /* NetIfcInfoArrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8099D412409D4ED0075551B /* NetIfcInfoArrView.swift */; };
+		D80BDD9124130A8A00C04387 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80BDD9024130A8A00C04387 /* UserData.swift */; };
 		D8D3B77E24107F6C0041C894 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = D8D3B77D24107F6C0041C894 /* SimplePing.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		D8099D3D2409D42D0075551B /* WifiInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInfoView.swift; sourceTree = "<group>"; };
 		D8099D3F2409D4920075551B /* NetIfcInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetIfcInfoView.swift; sourceTree = "<group>"; };
 		D8099D412409D4ED0075551B /* NetIfcInfoArrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetIfcInfoArrView.swift; sourceTree = "<group>"; };
+		D80BDD9024130A8A00C04387 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		D8D3B77C24107EE80041C894 /* SimplePing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
 		D8D3B77D24107F6C0041C894 /* SimplePing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		D8D3B77F241081EC0041C894 /* SysInfo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SysInfo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		D8099D342409D1E70075551B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D80BDD9024130A8A00C04387 /* UserData.swift */,
 				2E3D0857240F10DF00379C0A /* CommonDefs.swift */,
 				D8099D372409D3250075551B /* NetIfcInfo.swift */,
 				2E4281C3240DBC19006ECD8D /* WifiInfo.swift */,
@@ -245,6 +248,7 @@
 				2E3D0854240EDF7300379C0A /* DeviceInfoView.swift in Sources */,
 				D8099D3A2409D38F0075551B /* DataIO.swift in Sources */,
 				2E3D0850240ED11700379C0A /* CwlSysctl.swift in Sources */,
+				D80BDD9124130A8A00C04387 /* UserData.swift in Sources */,
 				D8099D402409D4920075551B /* NetIfcInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
