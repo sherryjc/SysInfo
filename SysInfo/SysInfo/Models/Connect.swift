@@ -19,9 +19,16 @@ struct Connect {
         cnView?.updateOutput(status, response)
     }
     
+    static func cb2(pr: PingResp) -> Void {
+        if (pr.t == PingResp.opType.start && pr.st != PingResp.opStat.fail) {
+            cnView?.updateIpAddr(pr.txt)
+        }
+        //cnView?.updateOutput(pr.st, pr.txt)
+    }
+
     static func ping(_ hostName: String, _ numPings: UInt8) {
         let pm = PingMgrTest()
-        pm.ping(hostName, numPings, Connect.cb)
+        pm.ping(hostName, numPings, Connect.cb, Connect.cb2)
     }
 }
 
@@ -31,6 +38,21 @@ enum ConnectStatus {
     case more
 }
 
+struct PingResp {
+    enum opStat {
+        case success
+        case fail
+        case more
+    }
+    enum opType {
+        case start
+        case send
+        case recv
+    }
+    var st:     opStat
+    var t:      opType
+    var txt:    String
+}
 
 /*
 var canStartPinging = false
@@ -323,7 +345,9 @@ class PingMgrTest {
     var hostName: String = ""
     var numToSend: UInt8 = 0
     typealias cbFunc = (ConnectStatus, String) -> Void
+    typealias cbFunc2 = (PingResp) -> Void
     var callback: cbFunc?
+    var callback2: cbFunc2?
     
     // This PingMgr's bookkeeping
     var numSent: UInt8 = 0
@@ -331,10 +355,11 @@ class PingMgrTest {
     // Maps: seqNum -> Time sent
     var sentTimes = [UInt16 : TimeInterval]()
     
-    func ping(_ host: String, _ num: UInt8, _ cb: @escaping cbFunc) {
+    func ping(_ host: String, _ num: UInt8, _ cb: @escaping cbFunc, _ cb2: @escaping cbFunc2) {
         self.hostName = host
         self.numToSend = num
         self.callback = cb
+        self.callback2 = cb2
         
         self.start(forceIPv4: true, forceIPv6: false)
     }
@@ -382,8 +407,8 @@ class PingMgrTest {
 
     // simulated pinger delegate callbacks
     func gotDidStartWithAddress(_ ipAddr: String) {
-        let resp = "Pinging host \(ipAddr)"
-        self.callback?(ConnectStatus.more, resp)
+        let pr = PingResp(st: PingResp.opStat.more, t: PingResp.opType.start, txt: ipAddr)
+        self.callback2?(pr)
     }
     
     func gotDidFailWithError(_ errMsg: String) {
