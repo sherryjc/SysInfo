@@ -8,12 +8,8 @@
 
 import Foundation
 
-// Encapsulates other external data in addition to user data
+// Encapsulates data entered by the user (which the UI needs to react to)
 final class UserData: ObservableObject {
     // User enters this data
     @Published var remoteHost: String = ""
-    
-    // This data comes back from external callbacks
-    @Published var remoteIpAddr: String = ""
-    @Published var outputRows: [RowItem] = [RowItem]()
 }

@@ -18,58 +18,24 @@ struct ConnectViewRow: View  {
         
         if status == ConnectStatus.fail {
             return HStack {
-                Text("[FAIL] ").foregroundColor(Clr.red1)
+                Text("[FAIL] ").foregroundColor(Clr.red1).multilineTextAlignment(.leading)
                 Text(rowText)
             }
         } else {
             return HStack {
-                Text("[OK] ").foregroundColor(Clr.green1)
+                Text("[OK] ").foregroundColor(Clr.green1).multilineTextAlignment(.leading)
                 Text(rowText)
             }
         }
     }
 }
 
-struct RowItem: Identifiable {
-    var id : Int
-    var status: ConnectStatus
-    var resp: String
-}
-
-
 struct ConnectView: View {
     
     @EnvironmentObject private var userData : UserData
+    @ObservedObject var dispData = Connect.connectDispData
+    let pingAttempts: UInt8 = 4
     
-    init() {
-        Connect.registerView(self)
-    }
-    
-    func updateIpAddr(_ ipAddr: String) -> Void {
-        userData.remoteIpAddr = ipAddr
-    }
-    
-    func updateOutput(_ status: ConnectStatus, _ line: String) -> Void {
-        var rows = userData.outputRows
-        let currRows = rows.count
-        let row = RowItem(id: currRows, status: status, resp: line)
-        rows.append(row)
-        print(rows.count)
-        print("Appended row [\(row)], count=\(userData.outputRows.count)")
-    }
-    
-    func hack() {
-        // Add test rows
-        self.updateIpAddr("192.168.0.1")
-        // self.updateOutput(ConnectStatus.more, "Here is another line of text")
-    }
-    
-    func clearOutput() -> Void {
-        print("Clearing output")
-        userData.outputRows = [RowItem]()
-        print("Cleared output")
-    }
-
     var body: some View {
 
         ZStack {
@@ -93,9 +59,7 @@ struct ConnectView: View {
                 HStack {
                     Button(action: {
                         if (!self.userData.remoteHost.isEmpty) {
-                            self.clearOutput()
-                            self.hack()
-                            //Connect.ping(self.userData.remoteHost, 4)
+                            Connect.ping(self.userData.remoteHost, self.pingAttempts)
                         }
                     }) {
                         Text("     Ping      ").font(.subheadline).bold()
@@ -125,10 +89,11 @@ struct ConnectView: View {
                 }
                 .padding(.all)
                 VStack {
-                    Text("Row count: \(userData.outputRows.count)")
-                    Text("Resolved IP Addr: \(userData.remoteIpAddr)")
-                    List(userData.outputRows) { rowItem in
-                        ConnectViewRow(status: rowItem.status, rowText: rowItem.resp)
+                    Text("Resolved IP Addr: \(self.dispData.remoteIpAddr)")
+                    Text("Row count: \(self.dispData.rows.count())")
+                    ForEach(self.dispData.rowItems()){ row in
+                        ConnectViewRow(status: row.status, rowText: row.resp)
+                        Text(row.resp)
                     }
                 }
             }

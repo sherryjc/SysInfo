@@ -8,48 +8,94 @@
 
 import Foundation
 
-
-struct Connect {
-    
-    static var cnView : ConnectView?
-    static func registerView(_ cv: ConnectView) {
-        cnView = cv
-    }
-    static func cb(_ status: ConnectStatus, _ response: String) -> Void {
-        cnView?.updateOutput(status, response)
-    }
-    
-    static func cb2(pr: PingResp) -> Void {
-        if (pr.t == PingResp.opType.start && pr.st != PingResp.opStat.fail) {
-            cnView?.updateIpAddr(pr.txt)
-        }
-        //cnView?.updateOutput(pr.st, pr.txt)
-    }
-
-    static func ping(_ hostName: String, _ numPings: UInt8) {
-        let pm = PingMgrTest()
-        pm.ping(hostName, numPings, Connect.cb, Connect.cb2)
-    }
-}
-
 enum ConnectStatus {
+    case unknown
     case success
     case fail
     case more
 }
 
-struct PingResp {
-    enum opStat {
-        case success
-        case fail
-        case more
+class RowItem: ObservableObject, Identifiable {
+    var id : Int
+    var status: ConnectStatus
+    var resp: String
+    
+    init(_ id: Int, _ status: ConnectStatus, _ resp: String) {
+        self.id = id
+        self.status = status
+        self.resp = resp
     }
+ }
+
+class RowItems: ObservableObject{
+    @Published var items: [RowItem] = [RowItem]()
+
+    func add(_ item: RowItem) {
+        items.append(item)
+    }
+    
+    func clear() {
+        items = [RowItem]()
+    }
+    
+    func count() -> Int {
+        return items.count
+    }
+    
+    func rowItems() -> [RowItem] {
+        return items
+    }
+}
+
+// This data comes back from external callbacks
+class ConnectDispData: ObservableObject{
+    @Published var remoteIpAddr: String = ""
+    @Published var rows: RowItems = RowItems()
+    
+    func updateIpAddr(_ addr: String) -> Void {
+        remoteIpAddr = addr
+    }
+    
+    func addRow(_ st: ConnectStatus, _ resp: String) -> Void {
+        let rowItem = RowItem(rows.count(), st, resp)
+        rows.add(rowItem)
+    }
+    
+    func clear() -> Void {
+        rows.clear()
+        remoteIpAddr = ""
+    }
+    
+    func rowItems() -> [RowItem] {
+        return rows.rowItems()
+    }
+}
+
+struct Connect {
+    
+    static var connectDispData = ConnectDispData()
+    
+    static func cb(pr: PingResp) -> Void {
+        if (pr.t == PingResp.opType.start && pr.st != ConnectStatus.fail) {
+            connectDispData.clear()
+            connectDispData.updateIpAddr(pr.txt)
+        }
+        connectDispData.addRow(pr.st, pr.txt)
+    }
+
+    static func ping(_ hostName: String, _ numPings: UInt8) {
+        let pm = PingMgrTest()
+        pm.ping(hostName, numPings, Connect.cb)
+    }
+}
+
+struct PingResp {
     enum opType {
         case start
         case send
         case recv
     }
-    var st:     opStat
+    var st:     ConnectStatus
     var t:      opType
     var txt:    String
 }
@@ -344,10 +390,8 @@ class PingMgrTest {
     // Inputs
     var hostName: String = ""
     var numToSend: UInt8 = 0
-    typealias cbFunc = (ConnectStatus, String) -> Void
-    typealias cbFunc2 = (PingResp) -> Void
+    typealias cbFunc = (PingResp) -> Void
     var callback: cbFunc?
-    var callback2: cbFunc2?
     
     // This PingMgr's bookkeeping
     var numSent: UInt8 = 0
@@ -355,11 +399,10 @@ class PingMgrTest {
     // Maps: seqNum -> Time sent
     var sentTimes = [UInt16 : TimeInterval]()
     
-    func ping(_ host: String, _ num: UInt8, _ cb: @escaping cbFunc, _ cb2: @escaping cbFunc2) {
+    func ping(_ host: String, _ num: UInt8, _ cb: @escaping cbFunc) {
         self.hostName = host
         self.numToSend = num
         self.callback = cb
-        self.callback2 = cb2
         
         self.start(forceIPv4: true, forceIPv6: false)
     }
@@ -407,24 +450,27 @@ class PingMgrTest {
 
     // simulated pinger delegate callbacks
     func gotDidStartWithAddress(_ ipAddr: String) {
-        let pr = PingResp(st: PingResp.opStat.more, t: PingResp.opType.start, txt: ipAddr)
-        self.callback2?(pr)
+        let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.start, txt: ipAddr)
+        self.callback?(pr)
     }
     
     func gotDidFailWithError(_ errMsg: String) {
-        self.callback?(ConnectStatus.fail, errMsg)
+        let pr = PingResp(st: ConnectStatus.fail, t: PingResp.opType.start, txt: errMsg)
+        self.callback?(pr)
     }
     
     func gotDidSendPacket(_ sequenceNumber: UInt16) {
         let resp = "sent seq=\(sequenceNumber)"
         self.sentTimes[sequenceNumber] = Date().timeIntervalSince1970
-        self.callback?(ConnectStatus.more, resp)
+        let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.send, txt: resp)
+        self.callback?(pr)
         self.numSent += 1
     }
     
     func gotDidFailToSendPacket(_ sequenceNumber: UInt16, _ errMsg: String) {
         let resp = "send failed for seq=\(sequenceNumber) \(errMsg)"
-        self.callback?(ConnectStatus.fail, resp)
+        let pr = PingResp(st: ConnectStatus.fail, t: PingResp.opType.send, txt: resp)
+        self.callback?(pr)
     }
     
     func gotDidReceiveResponsePacket(_ sequenceNumber: UInt16) {
@@ -432,22 +478,18 @@ class PingMgrTest {
         let ms = 4.1234
         let resp = "received seq=\(sequenceNumber), sz=64 time=\(ms) ms"
         numRecv += 1
+        var st = ConnectStatus.more
         if (numRecv >= numToSend) {
-            self.callback?(ConnectStatus.success, resp)
-        } else {
-            self.callback?(ConnectStatus.more, resp)
+            st = ConnectStatus.success
         }
+        let pr = PingResp(st: st, t: PingResp.opType.recv, txt: resp)
+        self.callback?(pr)
     }
 
     func gotDidReceiveUnexpectedPacket() {
         let resp = "received unexpected packet seq=??? sz=64"
-        self.callback?(ConnectStatus.more, resp)
+        let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.recv, txt: resp)
+        self.callback?(pr)
     }
-    
-    func simplePing(_ pinger: SimplePing, didReceiveUnexpectedPacket packet: Data) {
-        let resp = "received unexpected packet seq=??? sz=64"
-        self.callback?(ConnectStatus.more, resp)
-    }
-    
 }
 
