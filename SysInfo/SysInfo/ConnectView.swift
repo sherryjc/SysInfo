@@ -19,12 +19,14 @@ struct ConnectViewRow: View  {
         if status == ConnectStatus.fail {
             return HStack {
                 Text("[FAIL] ").foregroundColor(Clr.red1).multilineTextAlignment(.leading)
-                Text(rowText)
+                Text(rowText).multilineTextAlignment(.leading)
+                Spacer()
             }
         } else {
             return HStack {
                 Text("[OK] ").foregroundColor(Clr.green1).multilineTextAlignment(.leading)
-                Text(rowText)
+                Text(rowText).multilineTextAlignment(.leading)
+                Spacer()
             }
         }
     }
@@ -85,15 +87,12 @@ struct ConnectView: View {
                     Text("Contacting host:")
                         .padding(.horizontal)
                     Spacer()
-                    Text("\(userData.remoteHost)").foregroundColor(Clr.red1)
+                    Text("\(userData.remoteHost)").foregroundColor(Clr.blue1).bold()
                 }
                 .padding(.all)
                 VStack {
-                    Text("Resolved IP Addr: \(self.dispData.remoteIpAddr)")
-                    Text("Row count: \(self.dispData.rows.count())")
                     ForEach(self.dispData.rowItems()){ row in
                         ConnectViewRow(status: row.status, rowText: row.resp)
-                        Text(row.resp)
                     }
                 }
             }

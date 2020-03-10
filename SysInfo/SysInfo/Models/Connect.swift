@@ -79,8 +79,10 @@ struct Connect {
         if (pr.t == PingResp.opType.start && pr.st != ConnectStatus.fail) {
             connectDispData.clear()
             connectDispData.updateIpAddr(pr.txt)
+            connectDispData.addRow(pr.st, "Resolved host to address " + pr.txt)
+        } else {
+            connectDispData.addRow(pr.st, pr.txt)
         }
-        connectDispData.addRow(pr.st, pr.txt)
     }
 
     static func ping(_ hostName: String, _ numPings: UInt8) {
