@@ -86,7 +86,8 @@ struct Connect {
     }
 
     static func ping(_ hostName: String, _ numPings: UInt8) {
-        let pm = PingMgrTest()
+        //let pm = PingMgrTest()
+        let pm = PingMgr()
         pm.ping(hostName, numPings, Connect.cb)
     }
 }
@@ -186,15 +187,15 @@ func myFunction() {
 
 
 
-/*
+
 class PingMgr: NSObject, SimplePingDelegate {
  
     // Inputs
     var hostName: String = ""
     var numToSend: UInt8 = 0
-    typealias cbFunc = (ConnectStatus, String) -> Void
-    var callback: cbFunc = {_,_ in }
-    
+    typealias cbFunc = (PingResp) -> Void
+    var callback: cbFunc?
+
     // System objects providing services
     var pinger: SimplePing?
     var sendTimer: Timer?
@@ -260,7 +261,6 @@ class PingMgr: NSObject, SimplePingDelegate {
     
     func pingerWillStart() {
         self.clear()
-        ConnectView.clearOutput()
     }
     
     func pingerDidStop() {
@@ -270,10 +270,10 @@ class PingMgr: NSObject, SimplePingDelegate {
     // pinger delegate callbacks
     
     func simplePing(_ pinger: SimplePing, didStartWithAddress address: Data) {
-        let dispAddr = PingMgr.displayAddressForAddress(address: address as NSData)
-        let resp = "Pinging host \(dispAddr)"
-        callback(ConnectStatus.more, resp)
-        
+        let ipAddr = PingMgr.displayAddressForAddress(address: address as NSData)
+        let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.start, txt: ipAddr)
+        self.callback?(pr)
+
         // Send the first ping straight away.
         self.sendPing()
         assert(self.numSent == 0)
@@ -288,8 +288,8 @@ class PingMgr: NSObject, SimplePingDelegate {
     
     func simplePing(_ pinger: SimplePing, didFailWithError error: Error) {
         let errMsg = PingMgr.shortErrorFromError(error: error as NSError)
-        self.callback(ConnectStatus.fail, errMsg)
-        
+        let pr = PingResp(st: ConnectStatus.fail, t: PingResp.opType.start, txt: errMsg)
+        self.callback?(pr)
         self.stop()
     }
     
@@ -297,10 +297,11 @@ class PingMgr: NSObject, SimplePingDelegate {
     func simplePing(_ pinger: SimplePing, didSendPacket packet: Data, sequenceNumber: UInt16) {
         let resp = "sent seq=\(sequenceNumber)"
         self.sentTimes[sequenceNumber] = Date().timeIntervalSince1970
-        self.callback(ConnectStatus.more, resp)
+        let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.send, txt: resp)
+        self.callback?(pr)
         self.numSent += 1
         if (self.numSent >= self.numToSend) {
-            // Stop the timer, no need to send any more
+            // Stop the timer, we are done sending
             self.sendTimer?.invalidate()
             self.sendTimer = nil
         }
@@ -309,7 +310,8 @@ class PingMgr: NSObject, SimplePingDelegate {
     func simplePing(_ pinger: SimplePing, didFailToSendPacket packet: Data, sequenceNumber: UInt16, error: Error) {
         let errMsg = PingMgr.shortErrorFromError(error: error as NSError)
         let resp = "send failed for seq=\(sequenceNumber) \(errMsg)"
-        self.callback(ConnectStatus.fail, resp)
+        let pr = PingResp(st: ConnectStatus.fail, t: PingResp.opType.send, txt: resp)
+        self.callback?(pr)
         self.stop()
     }
     
@@ -318,16 +320,19 @@ class PingMgr: NSObject, SimplePingDelegate {
         let resp = "received seq=\(sequenceNumber), sz=\(packet.count), time=\(ms) ms"
         numRecv += 1
         if (numRecv >= numToSend) {
-            self.callback(ConnectStatus.success, resp)
+            let pr = PingResp(st: ConnectStatus.success, t: PingResp.opType.send, txt: resp)
+            self.callback?(pr)
             self.stop()
         } else {
-            self.callback(ConnectStatus.more, resp)
+            let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.send, txt: resp)
+            self.callback?(pr)
         }
     }
     
     func simplePing(_ pinger: SimplePing, didReceiveUnexpectedPacket packet: Data) {
         let resp = "received unexpected packet seq=??? sz=\(packet.count)"
-        self.callback(ConnectStatus.more, resp)
+        let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.send, txt: resp)
+        self.callback?(pr)
     }
     
     // Utilities
@@ -385,7 +390,7 @@ class PingMgr: NSObject, SimplePingDelegate {
     }
     
 }
-*/
+
 
 class PingMgrTest {
  
