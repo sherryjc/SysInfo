@@ -86,8 +86,8 @@ struct Connect {
     }
 
     static func ping(_ hostName: String, _ numPings: UInt8) {
-        //let pm = PingMgrTest()
-        let pm = PingMgr()
+        let pm = PingMgrTest()
+        //let pm = PingMgr()
         pm.ping(hostName, numPings, Connect.cb)
     }
 }
@@ -231,6 +231,7 @@ class PingMgr: NSObject, SimplePingDelegate {
         }
 
         pinger.delegate = self
+        print("Starting the pinger")
         pinger.start()
     }
     
@@ -270,6 +271,7 @@ class PingMgr: NSObject, SimplePingDelegate {
     // pinger delegate callbacks
     
     func simplePing(_ pinger: SimplePing, didStartWithAddress address: Data) {
+        print("Got callback: didStartWithAddress")
         let ipAddr = PingMgr.displayAddressForAddress(address: address as NSData)
         let pr = PingResp(st: ConnectStatus.more, t: PingResp.opType.start, txt: ipAddr)
         self.callback?(pr)

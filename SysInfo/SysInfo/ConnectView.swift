@@ -55,7 +55,7 @@ struct ConnectView: View {
                 VStack {
                     Text("Contact remote host")
                         .font(.subheadline).italic().foregroundColor(Clr.blue1).padding(.top)
-                    TextField("Enter URL or IP address", text: $userData.remoteHost).padding(.all).border(Color.blue, width: 1.0).background(Clr.blue1).textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Enter URL or IP address", text: $userData.remoteHost).padding(.all).border(Color.blue, width: 1.0).background(Clr.blue1).textFieldStyle(RoundedBorderTextFieldStyle()).disableAutocorrection(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
                 }
         
                 HStack {
